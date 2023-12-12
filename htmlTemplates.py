@@ -25,20 +25,20 @@ css = '''
 }
 '''
 
+user_template = '''
+<div class="chat-message user">
+    <div class="avatar">
+        <img src="https://w7.pngwing.com/pngs/400/768/png-transparent-laptop-computer-icons-user-drawing-computer-user-miscellaneous-blue-rectangle-thumbnail.png" style="max-height: 78px; max-width: 78px; border-radius: 50%; object-fit: cover;">
+    </div>    
+    <div class="message">{{MSG}}</div>
+</div>
+'''
+
 bot_template = '''
 <div class="chat-message bot">
     <div class="avatar">
         <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Mini-Robot.png" style="max-height: 78px; max-width: 78px; border-radius: 50%; object-fit: cover;">
     </div>
-    <div class="message">{{MSG}}</div>
-</div>
-'''
-
-user_template = '''
-<div class="chat-message user">
-    <div class="avatar">
-        <img src="https://w7.pngwing.com/pngs/802/825/png-transparent-redbubble-polite-cat-meme-funny-cat-meme-thumbnail.png">
-    </div>    
     <div class="message">{{MSG}}</div>
 </div>
 '''

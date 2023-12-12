@@ -35,35 +35,34 @@ def get_text_chunks(text):
     return chunks
 
 
-def get_vectorstore(text_chunks):
-    embeddings = OpenAIEmbeddings()
+def get_vectorstore(text_chunks, api_key=None):
+    embeddings = OpenAIEmbeddings(openai_api_key = api_key)
 
     # If you wanna use HF Embedding model, uncomment this and comment out OpenAIEmbeddings()
-    
     # embeddings = HuggingFaceInstructEmbeddings(model_name="hkunlp/instructor-xl")
+    
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     logger.info("Embeddings are created..")
     return vectorstore
 
 
-def get_conversation_chain(vectorstore):
-    llm = ChatOpenAI()
+def get_conversation_chain(vectorstore, api_key=None):
+    llm = ChatOpenAI(openai_api_key = api_key)
 
     # if you wanna use HF models, uncomment this and comment out ChatOpenAI()
     # llm = HuggingFaceHub(repo_id="google/flan-t5-xxl", model_kwargs={"temperature":0.5, "max_length":512})
 
-    memory = ConversationBufferMemory(
-        memory_key='chat_history', return_messages=True)
-    conversation_chain = ConversationalRetrievalChain.from_llm(
-        llm=llm,
-        retriever=vectorstore.as_retriever(),
-        memory=memory
-    )
+    memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
+    conversation_chain = ConversationalRetrievalChain.from_llm(llm=llm, retriever=vectorstore.as_retriever(), memory=memory)
     return conversation_chain
 
 
 def handle_userinput(user_question):
     response = st.session_state.conversation({'question': user_question})
+    
+    # logger.info("All response ..... ")
+    # logger.info(response)
+
     st.session_state.chat_history = response['chat_history']
 
     for i, message in enumerate(st.session_state.chat_history):
